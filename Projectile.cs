@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Raylib_cs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -7,9 +8,54 @@ using System.Threading.Tasks;
 
 namespace TankGame
 {
+    public partial class Program
+    {
+        private static void UpdateProjectiles()
+        {
+            // Update projectiles positions
+            for (int i = projectiles.Count - 1; i >= 0; i--)
+            {
+                projectiles[i].X += projectiles[i].LastDirection.X * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
+                projectiles[i].Y += projectiles[i].LastDirection.Y * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
+
+                // Remove projectiles when they go off screen
+                if (projectiles[i].X > screenWidth || projectiles[i].X < 0 ||
+                    projectiles[i].Y > screenHeight || projectiles[i].Y < 0)
+                {
+                    projectiles.RemoveAt(i);
+                }
+            }
+        }
+
+        public static string GetDirection(Vector2 direction)
+        {
+            if (direction.X == 1)
+            {
+                return "Right";
+            }
+            else if (direction.X == -1)
+            {
+                return "Left";
+            }
+            else if (direction.Y == 1)
+            {
+                return "Down";
+            }
+            else if (direction.Y == -1)
+            {
+                return "Up";
+            }
+            else
+            {
+                return "No direction";
+            }
+        }
+    }
+
+
     public class Projectile
     {
-        // Constructor for the projectile
+
         public Projectile(float x, float y, Vector2 lastDirection)
         {
             // Set the projectile position and direction

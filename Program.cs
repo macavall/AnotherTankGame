@@ -6,7 +6,7 @@ using System.Numerics;
 
 namespace TankGame
 {
-    class Program
+    public partial class Program
     {
         // Define the window dimensions
         const int screenWidth = 800;
@@ -21,7 +21,7 @@ namespace TankGame
         static List<Projectile> projectiles = new List<Projectile>();
         //static float projectileSpeed = 200.0f;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // Initialize the window
             Raylib.InitWindow(screenWidth, screenHeight, "Raylib Example - Square and Projectiles");
@@ -40,91 +40,13 @@ namespace TankGame
             Raylib.CloseWindow();
         }
 
-        static void UpdateGame()
+        public static void UpdateGame()
         {
-            // Movement logic for the player
-            if (Raylib.IsKeyDown(KeyboardKey.Right))
-            {
-                player.X += playerSpeed * Raylib.GetFrameTime();
-                lastDirection = new Vector2(1, 0);
-            }
-            if (Raylib.IsKeyDown(KeyboardKey.Left))
-            {
-                player.X -= playerSpeed * Raylib.GetFrameTime();
-                lastDirection = new Vector2(-1, 0);
-            }
-            if (Raylib.IsKeyDown(KeyboardKey.Up))
-            {
-                player.Y -= playerSpeed * Raylib.GetFrameTime();
-                lastDirection = new Vector2(0, -1);
-            }
-            if (Raylib.IsKeyDown(KeyboardKey.Down))
-            {
-                player.Y += playerSpeed * Raylib.GetFrameTime();
-                lastDirection = new Vector2(0, 1);
-            }
+            HandlePlayerInput();
 
-            // Shooting projectiles and event handling for space key
-            if (Raylib.IsKeyPressed(KeyboardKey.Space))
-            {
-                switch(GetDirection(lastDirection))
-                {
-                    case "Right":
-                        projectiles.Add(new Projectile(player.X + player.Width, (player.Y + player.Height / 2) - 5, lastDirection));
-                        break;
-                    case "Left":
-                        projectiles.Add(new Projectile(player.X - 20, (player.Y + player.Height / 2) - 5, lastDirection));
-                        break;
-                    case "Up":
-                        projectiles.Add(new Projectile((player.X + player.Width / 2) - 5, player.Y - 20, lastDirection));
-                        break;
-                    case "Down":
-                        projectiles.Add(new Projectile((player.X + player.Width / 2) - 5, player.Y + player.Height, lastDirection));
-                        break;
-                    default:
-                        break;
-                }
+            HandleProjectileInput();
 
-                //projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
-            }
-
-            // Update projectiles positions
-            for (int i = projectiles.Count - 1; i >= 0; i--)
-            {
-                projectiles[i].X += projectiles[i].LastDirection.X * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
-                projectiles[i].Y += projectiles[i].LastDirection.Y * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
-
-                // Remove projectiles when they go off screen
-                if (projectiles[i].X > screenWidth || projectiles[i].X < 0 ||
-                    projectiles[i].Y > screenHeight || projectiles[i].Y < 0)
-                {
-                    projectiles.RemoveAt(i);
-                }
-            }
-        }
-
-        public static string GetDirection(Vector2 direction)
-        {
-            if (direction.X == 1)
-            {
-                return "Right";
-            }
-            else if (direction.X == -1)
-            {
-                return "Left";
-            }
-            else if (direction.Y == 1)
-            {
-                return "Down";
-            }
-            else if (direction.Y == -1)
-            {
-                return "Up";
-            }
-            else
-            {
-                return "No direction";
-            }
+            UpdateProjectiles();
         }
 
         // Draw the game
