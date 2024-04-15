@@ -48,24 +48,5 @@ namespace TankGame
 
             UpdateProjectiles();
         }
-
-        // Draw the game
-        static void DrawGame()
-        {
-            Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.Black);
-
-            CheckPlayerBoarder();
-
-            Raylib.DrawRectangleRec(player, Color.Blue);
-
-            // Draw projectiles
-            foreach (var projectile in projectiles)
-            {
-                Raylib.DrawRectangleRec(new Rectangle() { X = projectile.X, Y = projectile.Y, Width = projectile.Width, Height = projectile.Height}, Color.Red);
-            }
-
-            Raylib.EndDrawing();
-        }
     }
 }
