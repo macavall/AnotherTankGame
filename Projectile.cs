@@ -9,7 +9,7 @@ namespace TankGame
 {
     public class Projectile
     {
-
+        // Constructor for the projectile
         public Projectile(float x, float y, Vector2 lastDirection)
         {
             // Set the projectile position and direction

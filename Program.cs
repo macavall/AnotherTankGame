@@ -67,7 +67,25 @@ namespace TankGame
             // Shooting projectiles and event handling for space key
             if (Raylib.IsKeyPressed(KeyboardKey.Space))
             {
-                projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
+                switch(GetDirection(lastDirection))
+                {
+                    case "Right":
+                        projectiles.Add(new Projectile(player.X + player.Width, (player.Y + player.Height / 2) - 5, lastDirection));
+                        break;
+                    case "Left":
+                        projectiles.Add(new Projectile(player.X - 20, (player.Y + player.Height / 2) - 5, lastDirection));
+                        break;
+                    case "Up":
+                        projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
+                        break;
+                    case "Down":
+                        projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
+                        break;
+                    default:
+                        break;
+                }
+
+                //projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
             }
 
             // Update projectiles positions
