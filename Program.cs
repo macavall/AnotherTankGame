@@ -79,7 +79,7 @@ namespace TankGame
                         projectiles.Add(new Projectile((player.X + player.Width / 2) - 5, player.Y - 20, lastDirection));
                         break;
                     case "Down":
-                        projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
+                        projectiles.Add(new Projectile((player.X + player.Width / 2) - 5, player.Y + player.Height, lastDirection));
                         break;
                     default:
                         break;
@@ -134,6 +134,24 @@ namespace TankGame
             Raylib.ClearBackground(Color.Black);
 
             // Draw player
+            if (player.X < 0)
+            {
+                player.X = 0;
+            }
+            else if (player.X  + player.Width > screenWidth)
+            {
+                player.X = screenWidth - player.Width;
+            }
+            else if (player.Y < 0)
+            {
+                player.Y = 0;
+            }
+            else if (player.Y + player.Height > screenHeight)
+            {
+                player.Y = screenHeight - player.Height;
+            }
+
+
             Raylib.DrawRectangleRec(player, Color.Blue);
 
             // Draw projectiles
