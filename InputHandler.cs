@@ -59,5 +59,26 @@ namespace TankGame
                 lastDirection = new Vector2(0, 1);
             }
         }
+
+        public static void CheckPlayerBoarder()
+        {
+            // Draw player
+            if (player.X < 0)
+            {
+                player.X = 0;
+            }
+            else if (player.X + player.Width > screenWidth)
+            {
+                player.X = screenWidth - player.Width;
+            }
+            else if (player.Y < 0)
+            {
+                player.Y = 0;
+            }
+            else if (player.Y + player.Height > screenHeight)
+            {
+                player.Y = screenHeight - player.Height;
+            }
+        }
     }
 }
