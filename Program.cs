@@ -76,7 +76,7 @@ namespace TankGame
                         projectiles.Add(new Projectile(player.X - 20, (player.Y + player.Height / 2) - 5, lastDirection));
                         break;
                     case "Up":
-                        projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
+                        projectiles.Add(new Projectile((player.X + player.Width / 2) - 5, player.Y - 20, lastDirection));
                         break;
                     case "Down":
                         projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
