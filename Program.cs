@@ -11,10 +11,13 @@ namespace TankGame
 
         public Projectile(float x, float y, Vector2 lastDirection)
         {
+            // Set the projectile position and direction
             this.X = x;
             this.Y = y;
             this.LastDirection = lastDirection;
 
+            // Which direction is the projectile firing?
+            // How to draw below is a bit hacky, but it works for now
             if (lastDirection.X == -1 || lastDirection.X == 1)
             {
                 this.Width = 20;
@@ -27,13 +30,19 @@ namespace TankGame
             }
         }
 
+        // Define the projectile direction
+        // Will be overwritten when the projectile is created
         public Vector2 LastDirection = new Vector2(0, 1);
 
+        // Define the projectile properties
         public float Width  {get; set;}
         public float Height {get; set;}
 
+        // Define the projectile position
         public float X { get; set; }
         public float Y { get; set; }
+
+        // Define the projectile speed
         public float projectileSpeed = 200.0f;
     }
 
@@ -95,7 +104,7 @@ namespace TankGame
                 lastDirection = new Vector2(0, 1);
             }
 
-            // Shooting projectiles
+            // Shooting projectiles and event handling for space key
             if (Raylib.IsKeyPressed(KeyboardKey.Space))
             {
                 projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
@@ -116,6 +125,7 @@ namespace TankGame
             }
         }
 
+        // Draw the game
         static void DrawGame()
         {
             Raylib.BeginDrawing();
