@@ -6,10 +6,20 @@ using System.Numerics;
 
 namespace TankGame
 {
-    public class Projectile()
+    public class Projectile
     {
-        public int X { get; set; }
-        public int Y { get; set; }
+
+        public Projectile(float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+
+        public float Width = 10;
+        public float Height = 20;
+
+        public float X { get; set; }
+        public float Y { get; set; }
         public float projectileSpeed = 200.0f;
     }
 
@@ -74,18 +84,18 @@ namespace TankGame
             // Shooting projectiles
             if (Raylib.IsKeyPressed(KeyboardKey.Space))
             {
-                projectiles.Add(new Rectangle(player.X + player.Width / 2, player.Y + player.Height / 2, 10, 20));
+                projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2));
             }
 
             // Update projectiles positions
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
-                projectiles[i].X += lastDirection.X * projectileSpeed * Raylib.GetFrameTime();
-                projectiles[i].Y += lastDirection.Y * projectileSpeed * Raylib.GetFrameTime();
+                projectiles[i].X += lastDirection.X * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
+                projectiles[i].Y += lastDirection.Y * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
 
                 // Remove projectiles when they go off screen
-                if (projectiles[i].X > screenWidth || projectiles[i].x < 0 ||
-                    projectiles[i].y > screenHeight || projectiles[i].y < 0)
+                if (projectiles[i].X > screenWidth || projectiles[i].X < 0 ||
+                    projectiles[i].Y > screenHeight || projectiles[i].Y < 0)
                 {
                     projectiles.RemoveAt(i);
                 }
@@ -95,15 +105,15 @@ namespace TankGame
         static void DrawGame()
         {
             Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.BLACK);
+            Raylib.ClearBackground(Color.Black);
 
             // Draw player
-            Raylib.DrawRectangleRec(player, Color.BLUE);
+            Raylib.DrawRectangleRec(player, Color.Blue);
 
             // Draw projectiles
             foreach (var projectile in projectiles)
             {
-                Raylib.DrawRectangleRec(projectile, Color.RED);
+                Raylib.DrawRectangleRec(new Rectangle() { X = projectile.X, Y = projectile.Y, Width = projectile.Width, Height = projectile.Height}, Color.Red);
             }
 
             Raylib.EndDrawing();
