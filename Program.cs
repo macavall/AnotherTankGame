@@ -9,14 +9,28 @@ namespace TankGame
     public class Projectile
     {
 
-        public Projectile(float x, float y)
+        public Projectile(float x, float y, Vector2 lastDirection)
         {
             this.X = x;
             this.Y = y;
+            this.LastDirection = lastDirection;
+
+            if (lastDirection.X == -1 || lastDirection.X == 1)
+            {
+                this.Width = 20;
+                this.Height = 10;
+            }
+            else            
+            {
+                this.Width = 10;
+                this.Height = 20;
+            }
         }
 
-        public float Width = 10;
-        public float Height = 20;
+        public Vector2 LastDirection = new Vector2(0, 1);
+
+        public float Width  {get; set;}
+        public float Height {get; set;}
 
         public float X { get; set; }
         public float Y { get; set; }
@@ -84,14 +98,14 @@ namespace TankGame
             // Shooting projectiles
             if (Raylib.IsKeyPressed(KeyboardKey.Space))
             {
-                projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2));
+                projectiles.Add(new Projectile(player.X + player.Width / 2, player.Y + player.Height / 2, lastDirection));
             }
 
             // Update projectiles positions
             for (int i = projectiles.Count - 1; i >= 0; i--)
             {
-                projectiles[i].X += lastDirection.X * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
-                projectiles[i].Y += lastDirection.Y * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
+                projectiles[i].X += projectiles[i].LastDirection.X * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
+                projectiles[i].Y += projectiles[i].LastDirection.Y * projectiles[i].projectileSpeed * Raylib.GetFrameTime();
 
                 // Remove projectiles when they go off screen
                 if (projectiles[i].X > screenWidth || projectiles[i].X < 0 ||
