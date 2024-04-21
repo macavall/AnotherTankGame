@@ -19,10 +19,17 @@ class Program
         Entity player = new Entity
         {
             Position = new PositionComponent { X = screenWidth / 2, Y = screenHeight / 2 },
-            Velocity = new VelocityComponent { VelocityX = 0, VelocityY = 0 },
+            Velocity = new VelocityComponent { VelocityX = 1, VelocityY = 1 },
             Renderer = new SquareRenderComponent()
         };
-        ((SquareRenderComponent)player.Renderer).Position = player.Position; // Link the renderer to the position component
+
+
+        ((SquareRenderComponent)player.Renderer).Position = player.Position;
+
+        //((Entity)player.Renderer).Position = player.Position;
+        //((SquareRenderComponent)player.Renderer).Position = player.Position;
+
+        //((SquareRenderComponent)player.Renderer).Position = player.Position; // Link the renderer to the position component
         manager.AddEntity(player);
 
         // Main game loop
@@ -31,20 +38,22 @@ class Program
             // Update all entities
             manager.Update();
 
-            // Handle Input
-            if (Raylib.IsKeyDown(KeyboardKey.Right))
-                player.Velocity.VelocityX = 2;
-            else if (Raylib.IsKeyDown(KeyboardKey.Left))
-                player.Velocity.VelocityX = -2;
-            else
-                player.Velocity.VelocityX = 0;
+            player.Velocity.VelocityX = 2;
 
-            if (Raylib.IsKeyDown(KeyboardKey.Up))
-                player.Velocity.VelocityY = -2;
-            else if (Raylib.IsKeyDown(KeyboardKey.Down))
-                player.Velocity.VelocityY = 2;
-            else
-                player.Velocity.VelocityY = 0;
+            // Handle Input
+            // if (Raylib.IsKeyDown(KeyboardKey.Right))
+            //     player.Velocity.VelocityX = 2;
+            // else if (Raylib.IsKeyDown(KeyboardKey.Left))
+            //     player.Velocity.VelocityX = -2;
+            // else
+            //     player.Velocity.VelocityX = 0;
+
+            // if (Raylib.IsKeyDown(KeyboardKey.Up))
+            //     player.Velocity.VelocityY = -2;
+            // else if (Raylib.IsKeyDown(KeyboardKey.Down))
+            //     player.Velocity.VelocityY = 2;
+            // else
+            //     player.Velocity.VelocityY = 0;
 
             // Drawing
             Raylib.BeginDrawing();
