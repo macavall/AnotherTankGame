@@ -14,8 +14,11 @@ namespace TankGame
 
         // Define the player (square) properties
         static Rectangle player = new Rectangle(400, 225, 30, 30);
-        static float playerSpeed = 150.0f;
+        static float playerSpeed = 100.0f;
         static Vector2 lastDirection = new Vector2(0, -1);
+        
+        static double lastShotTime = 0;
+        static double fireRate = 500; // milliseconds
 
         // List to keep track of projectiles
         static List<Projectile> projectiles = new List<Projectile>();
