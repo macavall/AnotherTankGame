@@ -1,52 +1,59 @@
 ﻿using Raylib_cs;
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 
-
-namespace TankGame
+class Program
 {
-    public partial class Program
+    static void Main(string[] args)
     {
-        // Define the window dimensions
+        // Initialization
         const int screenWidth = 800;
         const int screenHeight = 450;
+        Raylib.InitWindow(screenWidth, screenHeight, "Raylib Component Pattern Example");
+        Raylib.SetTargetFPS(60);
 
-        // Define the player (square) properties
-        static Rectangle player = new Rectangle(400, 225, 30, 30);
-        static float playerSpeed = 150.0f;
-        static Vector2 lastDirection = new Vector2(0, -1);
+        // Create entity manager
+        EntityManager manager = new EntityManager();
 
-        // List to keep track of projectiles
-        static List<Projectile> projectiles = new List<Projectile>();
-        //static float projectileSpeed = 200.0f;
-
-        public static void Main(string[] args)
+        // Create and configure entities
+        Entity player = new Entity
         {
-            // Initialize the window
-            Raylib.InitWindow(screenWidth, screenHeight, "Raylib Example - Square and Projectiles");
-            Raylib.SetTargetFPS(60);
+            Position = new PositionComponent { X = screenWidth / 2, Y = screenHeight / 2 },
+            Velocity = new VelocityComponent { VelocityX = 0, VelocityY = 0 },
+            Renderer = new SquareRenderComponent()
+        };
+        ((SquareRenderComponent)player.Renderer).Position = player.Position; // Link the renderer to the position component
+        manager.AddEntity(player);
 
-            while (!Raylib.WindowShouldClose())
-            {
-                // Update
-                UpdateGame();
+        // Main game loop
+        while (!Raylib.WindowShouldClose())
+        {
+            // Update all entities
+            manager.Update();
 
-                // Draw
-                DrawGame();
-            }
+            // Handle Input
+            if (Raylib.IsKeyDown(KeyboardKey.Right))
+                player.Velocity.VelocityX = 2;
+            else if (Raylib.IsKeyDown(KeyboardKey.Left))
+                player.Velocity.VelocityX = -2;
+            else
+                player.Velocity.VelocityX = 0;
 
-            // Close window and unload resources
-            Raylib.CloseWindow();
+            if (Raylib.IsKeyDown(KeyboardKey.Up))
+                player.Velocity.VelocityY = -2;
+            else if (Raylib.IsKeyDown(KeyboardKey.Down))
+                player.Velocity.VelocityY = 2;
+            else
+                player.Velocity.VelocityY = 0;
+
+            // Drawing
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(Color.Black);
+            manager.Draw();
+            Raylib.EndDrawing();
         }
 
-        public static void UpdateGame()
-        {
-            HandlePlayerInput();
-
-            HandleProjectileInput();
-
-            UpdateProjectiles();
-        }
+        // De-Initialization
+        Raylib.CloseWindow();
     }
 }
