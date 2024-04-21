@@ -89,7 +89,7 @@ namespace TankGame
         public float X { get; set; }
         public float Y { get; set; }
 
-        // Define the projectile speed
+        // Define the projectile speed  
         public float projectileSpeed = 200.0f;
     }
 }
